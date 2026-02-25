@@ -104,7 +104,7 @@ function mountP5(targetId) {
       // deterministic random for scene details
       p.randomSeed(currentRender.seed);
 
-      /*
+      
       // moon
       if (data.moon) {
         p.noStroke();
@@ -177,7 +177,7 @@ function mountP5(targetId) {
         p.fill(80, 120, 80);
         p.ellipse(lx + 10, ly + 12, 26, 16);
       }
-      */
+      
 
       // frogs (deterministic)
       p.noStroke();
@@ -281,7 +281,7 @@ function renderStaticThumbnail(containerEl, rules, seed, size = 220) {
   // deterministic RNG (simple LCG)
   let s = seed >>> 0;
   const rand = () => (s = (1664525 * s + 1013904223) >>> 0) / 4294967296;
-  /*
+  
   const randRange = (min, max) => min + rand() * (max - min);
 
   // moon
@@ -379,7 +379,7 @@ function renderStaticThumbnail(containerEl, rules, seed, size = 220) {
     ctx.ellipse(lx + 7, ly + 9, 13, 8, 0, 0, Math.PI * 2);
     ctx.fill();
   }
-  */
+  
 
   // frogs
   ctx.fillStyle = "rgb(40,40,40)";
