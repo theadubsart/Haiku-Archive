@@ -25,10 +25,11 @@ function showStep(n) {
 
 function renderArchiveGrid() {
   const grid = document.getElementById("archiveGrid");
-  const items = loadArchive();
 
   grid.innerHTML = "";
-  items.forEach((entry) => {
+
+  // archiveData is always an array
+  archiveData.forEach((entry) => {
     const card = document.createElement("div");
     card.className = "archive-card";
     card.title = "Open";
@@ -99,18 +100,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalBackdrop = document.getElementById("modalBackdrop");
   const modalClose = document.getElementById("modalClose");
 
-  // init
-  showStep(1);
-  
-  // Set up real-time archive sync
-  onArchiveSync(() => {
-    renderArchiveGrid();
-  });
-  
-  // Load initial archive from Firebase
-  loadArchive().then(() => {
-    renderArchiveGrid();
-  });
+showStep(1);
+
+onArchiveSync(() => {
+  renderArchiveGrid();
+});
+
+loadArchive(); 
 
   // word counter (40 words)
   function updateCounter() {
@@ -168,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     addToArchive(entry);
-    renderArchiveGrid();
 
     // reset to start (optional)
     resetToStart();
@@ -185,10 +180,9 @@ document.addEventListener("DOMContentLoaded", () => {
   modalClose.addEventListener("click", closeModal);
 
   // Export / Import / Clear
-  exportBtn.addEventListener("click", () => {
-    const items = loadArchive();
-    downloadJSON("archive.json", items);
-  });
+exportBtn.addEventListener("click", () => {
+  downloadJSON("archive.json", archiveData);
+});
 
   importFile.addEventListener("change", async (e) => {
     const file = e.target.files?.[0];
@@ -198,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const imported = importArchiveFromJSONText(text);
       saveArchive(imported);
-      renderArchiveGrid();
       alert("Imported archive.");
     } catch (err) {
       alert("Import failed: " + err.message);

@@ -41,13 +41,13 @@ function saveArchive(items) {
 }
 
 function addToArchive(entry) {
-  // Add single entry to Firebase
-  ARCHIVE_REF.child(entry.id).set(entry);
-  return archiveData;
+  ARCHIVE_REF.child(entry.id).set(entry)
+    .catch(err => console.error("Firebase write failed:", err));
 }
 
 function clearArchive() {
-  ARCHIVE_REF.remove();
+  ARCHIVE_REF.remove()
+    .catch(err => console.error("Firebase remove failed:", err));
 }
 
 function downloadJSON(filename, dataObj) {
