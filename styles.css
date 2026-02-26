@@ -175,13 +175,41 @@ textarea{
 
 #descriptionInput{
   width: 100%;
-  height: 220px;
+  min-height: 420px;
   border: 1px solid var(--border);
   padding: 14px;
   font-size: 16px;
   background: #f1f1ea;
-  resize: none;
   box-shadow: 4px 4px 0 #252525;
+}
+
+.prompt-item{
+  margin-bottom: 18px;
+}
+
+.prompt-item:last-child{
+  margin-bottom: 0;
+}
+
+.prompt-question{
+  font-size: 16px;
+  text-align: left;
+}
+
+.prompt-answer{
+  width: 100%;
+  min-height: 58px;
+  border: none;
+  border-left: 1px solid #b9b9b2;
+  background: transparent;
+  padding: 6px 0 6px 10px;
+  overflow: hidden;
+  resize: none;
+  font: inherit;
+}
+
+.prompt-answer:focus{
+  outline: none;
 }
 
 .counter{
@@ -359,4 +387,5 @@ textarea{
 .meta-desc{
   font-size: 18px;
   line-height: 1.3;
+  white-space: pre-line;
 }

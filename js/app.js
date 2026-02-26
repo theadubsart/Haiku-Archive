@@ -40,15 +40,42 @@ function renderArchiveGrid(items) {
     grid.appendChild(card);
   });
 }
+
+function getCombinedStep2Text() {
+  const fields = [
+    document.getElementById("aAnimals"),
+    document.getElementById("aMovement"),
+    document.getElementById("aAtmosphere"),
+    document.getElementById("aElements"),
+  ];
+
+  return fields
+    .map((field) => field.value.trim())
+    .filter(Boolean)
+    .join("\n");
+}
+
+function autoGrowTextarea(el) {
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+}
+
 function resetToStart() {
   showStep(1);
-  const descInput = document.getElementById("descriptionInput");
+  const aAnimals = document.getElementById("aAnimals");
+  const aMovement = document.getElementById("aMovement");
+  const aAtmosphere = document.getElementById("aAtmosphere");
+  const aElements = document.getElementById("aElements");
   const ageInput = document.getElementById("ageInput");
   const nationInput = document.getElementById("nationInput");
   const finalDescription = document.getElementById("finalDescription");
   const counter = document.getElementById("wordCounter");
 
-  descInput.value = "";
+  aAnimals.value = "";
+  aMovement.value = "";
+  aAtmosphere.value = "";
+  aElements.value = "";
+  [aAnimals, aMovement, aAtmosphere, aElements].forEach(autoGrowTextarea);
   ageInput.value = "";
   nationInput.value = "";
   finalDescription.value = "";
@@ -110,7 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveBtn = document.getElementById("saveBtn");
   const cancelStep3 = document.getElementById("cancelStep3");
 
-  const descInput = document.getElementById("descriptionInput");
+  const aAnimals = document.getElementById("aAnimals");
+  const aMovement = document.getElementById("aMovement");
+  const aAtmosphere = document.getElementById("aAtmosphere");
+  const aElements = document.getElementById("aElements");
   const counter = document.getElementById("wordCounter");
   const finalDescription = document.getElementById("finalDescription");
 
@@ -121,11 +151,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalClose = document.getElementById("modalClose");
 
   function updateCounter() {
-    const wc = clampWordCount(descInput.value, 40);
+    const wc = clampWordCount(getCombinedStep2Text(), 40);
     counter.textContent = `${wc}/40`;
     if (wc > 40) counter.textContent = `40/40`;
   }
-  descInput.addEventListener("input", updateCounter);
+  [aAnimals, aMovement, aAtmosphere, aElements].forEach((field) => {
+    autoGrowTextarea(field);
+    field.addEventListener("input", () => {
+      autoGrowTextarea(field);
+      updateCounter();
+    });
+  });
   updateCounter();
 
   toStep2.addEventListener("click", () => showStep(2));
@@ -135,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let lastSeed = null;
 
   translateBtn.addEventListener("click", () => {
-    const text = descInput.value.trim();
+    const text = getCombinedStep2Text();
     finalDescription.value = text;
 
     const wc = clampWordCount(text, 40);
